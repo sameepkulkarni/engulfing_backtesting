@@ -5,8 +5,6 @@ import os
 from datetime import time
 import sys
 from pathlib import Path
-
-# Add project root to Python path
 data_dir = Path.cwd() / "parquet_files"
 
 from backtest.data import load_data, resample_ohlcv
@@ -35,3 +33,6 @@ reliance = post_processing(reliance)
 reliance.to_csv(r'analysis\whole_df.csv')
 trades = trades_df(reliance)
 trades.to_csv(r'analysis\trades.csv')
+results = result(reliance)
+results = pd.DataFrame(results, index=False)
+results.to_csv(r'analysis\result.csv')
