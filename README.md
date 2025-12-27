@@ -1,112 +1,149 @@
-# Engulfing Strategy Backtesting (Intraday)
+# Engulfing Strategy — Intraday Research Framework
 
-This repository contains a **Python-based intraday backtesting framework** for an **Engulfing + Volume Confirmation** trading strategy.
+This repository is an **ongoing quantitative research project** focused on studying the
+**viability, stability, and risk characteristics** of intraday price-action strategies,
+starting with an **Engulfing + Volume confirmation** setup.
 
-The project focuses on:
-- Clean signal generation
-- Event-based trade execution
-- Realistic position sizing
-- Detailed P&L and transaction cost calculation
-- Post-trade performance evaluation
-
-The code is intentionally kept modular to allow further experimentation and extensions.
+The objective is **not** to present a finished or profitable trading system, but to build
+a **research-grade backtesting framework** that allows systematic experimentation with
+signals, execution rules, risk controls, and exit logic.
 
 ---
 
-## Strategy Overview
+## Research Motivation
 
-The trading logic is based on:
+Simple candlestick patterns often appear statistically attractive in isolation but tend
+to degrade once realistic execution constraints and risk controls are applied.
 
-1. **Engulfing Pattern Detection**
-   - Bullish engulfing → potential long
-   - Bearish engulfing → potential short
-
-2. **Volume Confirmation**
-   - Signal is considered only when volume is higher than a rolling volume average
-
-3. **Event-Based Signals**
-   - Signals are generated using **previous candle confirmation**
-   - Avoids look-ahead bias
-
-4. **Intraday Trading Constraints**
-   - Trades are taken only within defined market hours
-   - Supports time-based trade filtering
+This project investigates:
+- When (and if) engulfing patterns have predictive value
+- How expectancy changes with different exits and risk rules
+- The trade-off between **expectancy improvement and drawdown expansion**
+- Whether signal quality or risk control contributes more to long-term stability
 
 ---
 
-## Backtesting Logic
+## Current Scope (Implemented So Far)
 
-- One row per candle
-- Signal → Entry → Exit flow
-- Trades are executed only when:
-  - Signal is present
-  - Risk and position sizing conditions are satisfied
-- Stop-loss and target are derived from candle structure and risk parameters
+The current implementation establishes a **clean experimental baseline**.
 
----
+### 1. Signal Generation
+- Bullish and bearish engulfing pattern detection
+- Volume confirmation using rolling volume averages
+- **Previous-candle confirmation** to avoid look-ahead bias
+- Event-based signal generation (not indicator repainting)
 
-## Risk Management
+### 2. Execution & Position Sizing
+- Intraday trade execution model
+- Fixed monetary risk per trade
+- Quantity calculated from stop-loss distance
+- Candle-structure-based SL and RR-based targets
 
-- **Fixed monetary risk per trade**
-- Quantity is calculated as:
-- quantity = floor(monetary_risk / risk_in_points)
-
-- Supports:
-  - Risk–reward based exits
-  - Optional reversal-based exit logic
-
----
-
-## Transaction Costs Included
-
-Realistic Indian market costs are modeled:
-
-- Brokerage (capped)
+### 3. Transaction Cost Modeling
+Realistic Indian market costs are applied:
+- Brokerage (with cap)
 - STT
 - Exchange transaction charges
 - SEBI charges
 - GST
 - Stamp duty
 
-Net P&L is calculated **after all charges**.
+All reported P&L is **net of costs**.
 
----
-
-## Performance Metrics
-
-The framework computes:
-
+### 4. Performance Measurement
 - Trade-wise P&L
-- Gross and net P&L
 - Win rate and loss rate
-- Average win and average loss
+- Average win / average loss
 - Expectancy
-- Drawdown
-- MAE / MFE (planned / partially implemented)
+- Equity curve and drawdown tracking
 
 ---
 
-## Project Structure
+## Known Limitations (Explicitly Acknowledged)
 
-```text
-engulfing_backtesting/
-│
-├── data/
-│   └── Intraday OHLCV data (parquet)
-│
-├── backtest/
-│   ├── signal.py            # Engulfing + volume signal logic
-│   ├── execution.py         # Entry/exit handling
-│   ├── position_sizing.py   # Quantity & risk logic
-│   ├── costs.py             # Transaction cost calculation
-│
-├── analysis/
-│   └── Performance metrics and diagnostics
-│
-├── notebooks/
-│   └── Research & experimentation notebooks
-│
-├── main.py                  # End-to-end backtest runner
-├── requirements.txt
-└── README.md
+This project is **intentionally incomplete**.
 
+Currently missing or only partially implemented:
+- MAE / MFE distribution analysis
+- Parameter stability and sensitivity testing
+- Regime segmentation (volatility, trend)
+- Robust trade frequency control
+- Walk-forward or out-of-sample validation
+
+No claim of robustness or profitability is made at this stage.
+
+---
+
+## Research Roadmap (Planned Work)
+
+The following areas will be incorporated incrementally.
+
+### 1. Signal Quality Research
+- Variants of engulfing definitions
+- Relative vs normalized volume filters
+- Time-of-day filters
+- Volatility-conditioned signal filtering
+
+### 2. Trade Frequency Control
+- One-trade-per-day vs multiple-trade regimes
+- Cool-down logic after consecutive losses
+- Signal clustering suppression
+
+### 3. Exit Logic Experiments
+- Fixed RR vs adaptive RR
+- Reversal-based exits
+- Time-based exits
+- Partial exits and scale-outs
+
+### 4. Risk & Drawdown Control
+- Daily loss limits
+- Max consecutive loss rules
+- Equity-curve-aware risk scaling
+- Volatility-adjusted position sizing
+
+### 5. Post-Trade Diagnostics (Critical)
+- MAE / MFE distributions
+- Expectancy vs drawdown heatmaps
+- Tail-loss and adverse excursion analysis
+- Trade duration analysis
+
+### 6. Robustness & Bias Checks
+- Look-ahead and survivorship bias validation
+- Parameter sensitivity stress testing
+- Basic walk-forward testing
+
+---
+
+## Project Philosophy
+
+This repository follows a **research-first approach**:
+
+- No curve-fitting for isolated metrics
+- Preference for **expectancy stability over peak returns**
+- Drawdown behavior treated as a first-class metric
+- Explicit acknowledgment of uncertainty and limitations
+
+The framework is designed to evolve as research questions become sharper.
+
+---
+
+## Intended Use
+
+- Quantitative research practice
+- Strategy development experimentation
+- Learning systematic trading design
+- Foundation for more advanced market-structure-based strategies
+
+---
+
+## Disclaimer
+
+This project is strictly for **research and educational purposes**.
+It is **not intended for live trading** or investment advice.
+
+---
+
+## Author
+
+**Sameep Kulkarni**  
+Risk Management | Quantitative Research | Algorithmic Trading
