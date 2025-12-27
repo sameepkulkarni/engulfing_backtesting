@@ -1,3 +1,5 @@
+import pandas as pd
+
 # load the file
 def load_data(filename):
   return pd.read_parquet(filename)

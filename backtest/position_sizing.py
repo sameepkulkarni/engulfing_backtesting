@@ -1,3 +1,5 @@
+import numpy as np
+
 # sl logic
 def stop_loss(df):
   df = df.copy()

@@ -1,3 +1,6 @@
+import numpy as np
+from datetime import time
+
 # create volume moving average
 def create_volume_moving_average(df, candles = 8):
   df = df.copy()
