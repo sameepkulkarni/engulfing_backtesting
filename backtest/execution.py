@@ -89,6 +89,8 @@ def result(pnl):
   expectancy = avg_win*win_rate+avg_loss*loss_rate
   drawdown = max(pnl.fillna(0).cumsum().cummax() - pnl.fillna(0).cumsum()) 
   return {
+    "pnl": pnl.sum(),
+    "trades": pnl.count(),
     "avg_win": avg_win,
     "avg_loss": avg_loss,
     "win_rate": win_rate,
