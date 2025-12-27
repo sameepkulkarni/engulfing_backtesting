@@ -1,3 +1,4 @@
 .ipynb_checkpoints/upstox_data_fetch-checkpoint.py
 upstox_data_fetch.py
 all_symbols_fetch.py
+symbol_key.xlsx
